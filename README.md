@@ -33,6 +33,33 @@ cd DuCMD && npm install
   - tsconfig.node.json：基于 node 运行 SSR 以及 vite 打包相关的配置
   - tsconfig.app.json：默认定义了一些选项，其它大部分继承自 vue 源码中的 tsconfig
 
+# 插件
+
+## 代码生成器
+
+以 vuets 片段举例，先编写需要生成的代码的模板：
+
+```vue
+<template>
+  <div class="${1:home}">
+    <h2>${1:home}</h2>
+  </div>
+</template>
+
+<script setup lang="ts">
+</script>
+
+<style scoped>
+.${1:home}{
+        
+}
+</style>
+```
+
+- ${1:home} 表示生成代码后，将光标选中所有的该变量引用，方便一键替换
+- 将该代码粘贴至 `https://snippet-generator.app/` 生成对应 ide 的代码片段
+- 将代码片段粘贴至 vscode -> settings -> user snippet -> vue.json
+
 # 代码规范
 
 ## 集成 editorconfig 配置
@@ -123,7 +150,7 @@ npm install prettier -D
     "prettier": "prettier --write ."
 ```
 
-## 使用ESLint检测
+## 使用 ESLint 检测
 
 1.在前面创建项目的时候，我们就选择了 `ESLint`，所以Vue会默认帮助我们配置需要的 `ESLint` 环境。
 
@@ -150,7 +177,22 @@ npm install eslint-plugin-prettier eslint-config-prettier -D
   ]
 ```
 
-4.VSCode 中 eslint 的配置(在 vue 中用不上)
+在 eslintrc 中配置对某个规则的跳过
+
+```js
+// 比如某个报错：Component name "login" should always be multi-word.eslint（vue/multi-word-component-names）, 复制括号中的规则名
+parserOptions: {
+  ecmaVersion: 'latest'
+},
+// 忽略指定的错误,在规则中指定 eslint 规则文件
+rules: {
+  'vue/multi-word-component-names': 'off'
+}
+```
+
+
+
+5.VSCode 中 eslint 的配置(在 vue 中用不上)
 
 ```json
   "eslint.lintTask.enable": true,
@@ -220,3 +262,42 @@ declare module '*.vue' {
 }
 ```
 
+## vue-router
+
+```shell
+# 安装
+npm install vue-router
+```
+
+如果初始化项目选择了 router，会帮我们在入口文件自动 use(router)，这里手动引入即可
+
+## vue-pinia
+
+```bash
+# 安装
+npm install pinia
+```
+
+# 接口文档
+
+接口文档v1版本：
+
+https://documenter.getpostman.com/view/12387168/TzsfmQvw
+
+baseURL的值：
+
+```
+http://152.136.185.210:5000
+http://152.136.185.210:4000
+```
+
+设置全局token的方法：
+
+```js
+const res = pm.response.json();
+pm.globals.set("token", res.data.token);
+```
+
+接口文档v2版本：（有部分更新）
+
+https://documenter.getpostman.com/view/12387168/TzzDKb12

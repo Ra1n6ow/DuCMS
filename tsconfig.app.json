@@ -1,7 +1,7 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
   // 需要编译的文件
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
+  "include": ["*.d.ts", "src/**/*", "src/**/*.vue"],
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
     // composite 用于合并至 tsconfig.json
