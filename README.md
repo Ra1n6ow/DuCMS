@@ -46,12 +46,11 @@ cd DuCMD && npm install
   </div>
 </template>
 
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <style scoped>
 .${1:home}{
-        
+
 }
 </style>
 ```
@@ -190,8 +189,6 @@ rules: {
 }
 ```
 
-
-
 5.VSCode 中 eslint 的配置(在 vue 中用不上)
 
 ```json
@@ -245,7 +242,7 @@ npm install less -D
 
 ## Vue 相关
 
-___
+---
 
 ### vue 模块类型声明
 
@@ -294,8 +291,8 @@ http://152.136.185.210:4000
 设置全局token的方法：
 
 ```js
-const res = pm.response.json();
-pm.globals.set("token", res.data.token);
+const res = pm.response.json()
+pm.globals.set('token', res.data.token)
 ```
 
 接口文档v2版本：（有部分更新）
