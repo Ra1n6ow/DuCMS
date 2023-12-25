@@ -18,7 +18,7 @@
 
     <!-- 底部区域 -->
     <div class="controls">
-      <a-checkbox value="isRemPwd">记住密码</a-checkbox>
+      <a-checkbox v-model="isRemPwd">记住密码</a-checkbox>
       <a-link href="link">忘记密码</a-link>
     </div>
     <a-button @click="handleLoginBtnClick" type="primary" long>登录</a-button>
@@ -26,20 +26,29 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 import paneAccount from './pane-account.vue'
 import panePhone from './pane-phone.vue'
+import { localStorageCache } from '@/utils/cache'
 
-const isRemPwd = ref(false)
+const isRemPwd = ref<boolean>(localStorageCache.getCache('isRemPwd') ?? false)
 const activeName = ref('account')
 
 // 引用组件的实例类型
 const accountRef = ref<InstanceType<typeof paneAccount>>()
 
+watch(isRemPwd, (newValue) => {
+  if (newValue) {
+    localStorageCache.setCache('isRemPwd', newValue)
+  } else {
+    localStorageCache.removeCache('isRemPwd')
+  }
+})
+
 function handleLoginBtnClick() {
   if (activeName.value === 'account') {
-    accountRef.value?.loginAction()
+    accountRef.value?.loginAction(isRemPwd.value)
   } else {
     console.log('pppppp')
   }

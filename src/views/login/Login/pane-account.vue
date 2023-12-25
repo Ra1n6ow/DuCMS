@@ -36,15 +36,18 @@ import { Message } from '@arco-design/web-vue'
 
 import useLoginStore from '@/store/login'
 import type { IAccount } from '@/types'
+import { localStorageCache } from '@/utils/cache'
 
+const LOGIN_NAME = 'name'
+const LOGIN_PASSWORD = 'password'
 const formRef = ref<FormInstance>()
 const account = reactive<IAccount>({
-  name: '',
-  password: ''
+  name: localStorageCache.getCache(LOGIN_NAME) ?? '',
+  password: localStorageCache.getCache(LOGIN_PASSWORD) ?? ''
 })
 const loginStore = useLoginStore()
 
-function loginAction() {
+function loginAction(isRemPwd: boolean) {
   formRef.value?.validate((valid) => {
     if (!valid) {
       const name = account.name
@@ -55,7 +58,16 @@ function loginAction() {
       // })
 
       // 改由 pinia 内部发起登录请求
-      loginStore.loginAccountAction({ name, password })
+      loginStore.loginAccountAction({ name, password }).then(() => {
+        console.log(isRemPwd)
+        if (isRemPwd) {
+          localStorageCache.setCache(LOGIN_NAME, name)
+          localStorageCache.setCache(LOGIN_PASSWORD, password)
+        } else {
+          localStorageCache.removeCache(LOGIN_NAME)
+          localStorageCache.removeCache(LOGIN_PASSWORD)
+        }
+      })
     } else {
       Message.error('登录失败')
     }

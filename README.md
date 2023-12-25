@@ -284,8 +284,8 @@ https://documenter.getpostman.com/view/12387168/TzsfmQvw
 baseURL的值：
 
 ```
-http://152.136.185.210:5000
-http://152.136.185.210:4000
+http://codercba.com:5000
+http://codercba.com:4000
 ```
 
 设置全局token的方法：
