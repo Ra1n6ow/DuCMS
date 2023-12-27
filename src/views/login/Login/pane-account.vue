@@ -59,7 +59,6 @@ function loginAction(isRemPwd: boolean) {
 
       // 改由 pinia 内部发起登录请求
       loginStore.loginAccountAction({ name, password }).then(() => {
-        console.log(isRemPwd)
         if (isRemPwd) {
           localStorageCache.setCache(LOGIN_NAME, name)
           localStorageCache.setCache(LOGIN_PASSWORD, password)
