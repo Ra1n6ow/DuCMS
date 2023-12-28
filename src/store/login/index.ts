@@ -14,8 +14,8 @@ interface ILoginState {
 const useLoginStore = defineStore('longin', {
   state: (): ILoginState => ({
     token: localStorageCache.getCache(LOGIN_TOKEN) ?? '',
-    userInfo: {},
-    userMenus: []
+    userInfo: localStorageCache.getCache('userInfo'),
+    userMenus: localStorageCache.getCache('userMenus')
   }),
   actions: {
     async loginAccountAction(account: IAccount) {
@@ -33,6 +33,9 @@ const useLoginStore = defineStore('longin', {
       // 根据用户role id 获取菜单列表
       const userMenusRes = await getUserMenusByRoleId(this.userInfo.role.id)
       this.userMenus = userMenusRes.data
+
+      localStorageCache.setCache('userInfo', this.userInfo)
+      localStorageCache.setCache('userMenus', this.userMenus)
 
       router.push('/main')
     }

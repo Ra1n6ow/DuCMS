@@ -9,7 +9,7 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]  // vscode ts提示相关, 如果用 tsc 编译，也会用到这个，但是项目是用 vite 打包编译的
+      "@/*": ["./src/*"] // vscode ts提示相关, 如果用 tsc 编译，也会用到这个，但是项目是用 vite 打包编译的
     }
   }
 }
