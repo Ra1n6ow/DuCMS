@@ -9,13 +9,14 @@
     </div>
     <div class="content">
       <div class="breadcrumb">面包屑</div>
-      <div>个人信息</div>
+      <header-info />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import headerInfo from './headerInfo.vue'
 
 const isFold = ref(false)
 

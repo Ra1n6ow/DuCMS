@@ -20,7 +20,12 @@
             <template #icon><icon-desktop /></template>
             <template #title>{{ item.name }}</template>
             <template v-for="subitem in item.children" :key="subitem.id">
-              <a-menu-item v-if="subitem.id" :key="subitem.id + ''">{{ subitem.name }}</a-menu-item>
+              <a-menu-item
+                v-if="subitem.id"
+                :key="subitem.id + ''"
+                @click="handleItemClick(subitem)"
+                >{{ subitem.name }}</a-menu-item
+              >
             </template>
           </a-sub-menu>
         </template>
@@ -51,6 +56,7 @@
 </template>
 
 <script setup lang="ts">
+import router from '@/router'
 import useLoginStore from '@/store/login'
 
 defineProps({
@@ -62,6 +68,11 @@ defineProps({
 
 const loginStore = useLoginStore()
 const userMenus = loginStore.userMenus
+
+function handleItemClick(item: any) {
+  const url: string = item.url
+  router.push(url)
+}
 </script>
 
 <style lang="less" scoped>

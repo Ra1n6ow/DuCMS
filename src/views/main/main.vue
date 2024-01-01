@@ -10,7 +10,9 @@
           <!-- 接收子组件传递的事件 -->
           <main-header @fold-change="handleFoldChange" />
         </a-layout-header>
-        <a-layout-content>Content</a-layout-content>
+        <a-layout-content>
+          <router-view></router-view>
+        </a-layout-content>
       </a-layout>
     </a-layout>
   </div>
