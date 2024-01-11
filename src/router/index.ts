@@ -1,5 +1,6 @@
 import { LOGIN_TOKEN } from '@/global/constans'
 import { localStorageCache } from '@/utils/cache'
+import { firstMenu } from '@/utils/mapMenus'
 import { createRouter, createWebHashHistory, type RouteRecordRaw } from 'vue-router'
 
 const router = createRouter({
@@ -61,16 +62,16 @@ const localRoute: RouteRecordRaw[] = [
     component: () => import('@/views/main/system/user/user.vue')
   },
   {
-    path: '/main/system/role',
-    component: () => import('@/views/main/system/role/role.vue')
-  },
-  {
     path: '/main/system/department',
     component: () => import('@/views/main/system/department/department.vue')
   },
   {
     path: '/main/system/menu',
     component: () => import('@/views/main/system/menu/menu.vue')
+  },
+  {
+    path: '/main/system/role',
+    component: () => import('@/views/main/system/role/role.vue')
   },
   {
     path: '/main/product/category',
@@ -94,6 +95,10 @@ router.beforeEach((to) => {
   const token = localStorageCache.getCache(LOGIN_TOKEN)
   if (to.path === '/main' && !token) {
     return '/login'
+  }
+  // 如果已经登录
+  if (to.path === '/main') {
+    return firstMenu.url
   }
 })
 

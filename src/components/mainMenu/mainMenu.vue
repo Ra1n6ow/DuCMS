@@ -8,7 +8,11 @@
     </div>
     <!-- 导航 -->
     <div class="navdemo">
-      <a-menu :default-open-keys="['38']" :default-selected-keys="['39']" :collapsed="isFold">
+      <a-menu
+        :default-open-keys="[defaultOpenKeys]"
+        :default-selected-keys="[defaultSelectKeys]"
+        :collapsed="isFold"
+      >
         <template v-for="item in userMenus" :key="item.id">
           <!-- arco 组件在v-for条件下设置key会报错，需要在 arco 组件加个判断 -->
           <a-sub-menu v-if="item.id" :key="item.id + ''">
@@ -56,8 +60,11 @@
 </template>
 
 <script setup lang="ts">
-import router from '@/router'
+import { ref } from 'vue'
+// import { router, useRoute } from '@/router'
 import useLoginStore from '@/store/login'
+import { useRouter, useRoute } from 'vue-router'
+import { mapPathToMenu } from '@/utils/mapMenus'
 
 defineProps({
   isFold: {
@@ -69,6 +76,14 @@ defineProps({
 const loginStore = useLoginStore()
 const userMenus = loginStore.userMenus
 
+// 默认菜单
+const route = useRoute()
+// 当前菜单选择始终保持和当前路由一致
+const menu: [any, any] = mapPathToMenu(route.path, userMenus)
+const defaultOpenKeys = ref(menu[0].id + '')
+const defaultSelectKeys = ref(menu[1].id + '')
+
+const router = useRouter()
 function handleItemClick(item: any) {
   const url: string = item.url
   router.push(url)

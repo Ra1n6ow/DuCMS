@@ -4,7 +4,7 @@ import type { IAccount } from '@/types'
 import { localStorageCache } from '@/utils/cache'
 import { LOGIN_TOKEN } from '@/global/constans'
 import router from '@/router'
-import { addRoute } from '@/utils/mapMenus'
+import { addRoute, firstMenu } from '@/utils/mapMenus'
 
 interface ILoginState {
   token: string
@@ -42,7 +42,8 @@ const useLoginStore = defineStore('longin', {
       localStorageCache.setCache('userInfo', this.userInfo)
       localStorageCache.setCache('userMenus', this.userMenus)
 
-      router.push('/main')
+      // router.push('/main')
+      router.push(firstMenu.url)
     },
     // 该方法用于刷新页面时保存 store 以及加载动态路由
     loadLocalCacheAction() {
