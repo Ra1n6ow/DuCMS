@@ -14,13 +14,23 @@ export function addRoute(userMenus: any[]) {
   }
 }
 
-export function mapPathToMenu(path: string, userMenus: any[]): [any, any] {
+interface ICurrentMenus {
+  id: number // id 用于绑定默认菜单
+  name: string // 用于展示面包屑
+  path: string // 用于展示面包屑，暂时没用上这个参数
+}
+
+export function mapPathToMenu(path: string, userMenus: any[]) {
+  const currentMenus: ICurrentMenus[] = []
   for (const menu of userMenus) {
     for (const subMenu of menu.children) {
       if (path === subMenu.url) {
-        return [menu, subMenu]
+        currentMenus.push(
+          { id: menu.id, name: menu.name, path: menu.url },
+          { id: subMenu.id, name: subMenu.name, path: subMenu.url }
+        )
+        return currentMenus
       }
     }
   }
-  return [undefined, undefined]
 }

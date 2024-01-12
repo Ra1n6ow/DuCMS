@@ -79,9 +79,13 @@ const userMenus = loginStore.userMenus
 // 默认菜单
 const route = useRoute()
 // 当前菜单选择始终保持和当前路由一致
-const menu: [any, any] = mapPathToMenu(route.path, userMenus)
-const defaultOpenKeys = ref(menu[0].id + '')
-const defaultSelectKeys = ref(menu[1].id + '')
+const currentMenu = mapPathToMenu(route.path, userMenus)
+let defaultOpenKeys = ref('1')
+let defaultSelectKeys = ref('2')
+if (currentMenu) {
+  defaultOpenKeys.value = currentMenu[0].id + ''
+  defaultSelectKeys.value = currentMenu[1].id + ''
+}
 
 const router = useRouter()
 function handleItemClick(item: any) {

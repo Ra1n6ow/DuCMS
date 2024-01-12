@@ -8,7 +8,7 @@
       <icon-menu-fold size="26px" /> -->
     </div>
     <div class="content">
-      <div class="breadcrumb">面包屑</div>
+      <header-breadcrumb />
       <header-info />
     </div>
   </div>
@@ -17,6 +17,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import headerInfo from './headerInfo.vue'
+import headerBreadcrumb from './headerBreadcrumb.vue'
 
 const isFold = ref(false)
 
