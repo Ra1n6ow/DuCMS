@@ -25,9 +25,9 @@
         </a-col>
         <a-col :span="8">
           <a-form-item field="enable" label="状态" label-col-flex="100px">
-            <a-select v-model="searchForm.enable" placeholder="选择查询状态" allow-clear>
-              <a-option>启用</a-option>
-              <a-option>禁用</a-option>
+            <a-select placeholder="选择查询状态">
+              <a-option>0</a-option>
+              <a-option>1</a-option>
             </a-select>
           </a-form-item>
         </a-col>
@@ -66,11 +66,15 @@
 import { reactive, ref } from 'vue'
 import type { Form } from '@arco-design/web-vue/es'
 
+// 定义自定义事件
+const emit = defineEmits(['queryClick', 'resetClick'])
+
 const searchForm = reactive({
   name: '',
   realname: '',
   cellphone: '',
   enable: 1,
+  // 这里应该是个数组，接口有 bug，传 [] 会报错
   createAt: []
 })
 
@@ -78,11 +82,12 @@ const searchForm = reactive({
 const formRef = ref<InstanceType<typeof Form>>()
 function handleResetClick() {
   formRef.value?.resetFields()
-  // searchForm.name = ''
+  emit('resetClick')
 }
 
 function handleQueryClick() {
-  console.log('query')
+  // 将事件传递到父组件 user
+  emit('queryClick', searchForm)
 }
 </script>
 
