@@ -10,3 +10,16 @@ export function postUsersListData(queryInfo: any) {
     data: queryInfo
   })
 }
+
+export function deleteUserById(id: number) {
+  return duRequest.delete({
+    url: `/users/${id}`
+  })
+}
+
+export function createUserData(userInfo: any) {
+  return duRequest.post({
+    url: '/users',
+    data: userInfo
+  })
+}

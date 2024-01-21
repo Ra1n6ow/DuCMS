@@ -5,6 +5,7 @@ import { localStorageCache } from '@/utils/cache'
 import { LOGIN_TOKEN } from '@/global/constans'
 import router from '@/router'
 import { addRoute, firstMenu } from '@/utils/mapMenus'
+import useMainStore from '../main/main'
 
 interface ILoginState {
   token: string
@@ -54,6 +55,10 @@ const useLoginStore = defineStore('longin', {
         this.token = token
         this.userInfo = userInfo
         this.userMenus = userMenus
+
+        // 请求所有 roles/departments 数据
+        const mainStore = useMainStore()
+        mainStore.fetchEntireDataAction()
 
         // 再次加载路由
         addRoute(this.userMenus)

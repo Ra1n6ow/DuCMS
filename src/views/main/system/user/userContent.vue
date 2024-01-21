@@ -2,7 +2,7 @@
   <div class="content">
     <div class="header">
       <h3 class="title">用户列表</h3>
-      <a-button type="primary">
+      <a-button type="primary" @click="handleCreateUserClick">
         <template #default>新建用户</template>
       </a-button>
     </div>
@@ -44,14 +44,14 @@
           </template>
         </a-table-column>
         <a-table-column title="操作" :width="200" align="center">
-          <template #cell>
+          <template #cell="scope">
             <a-button type="text">
               <template #icon>
                 <icon-edit />
               </template>
               <template #default>编辑</template>
             </a-button>
-            <a-button type="text" status="danger">
+            <a-button type="text" status="danger" @click="deleteUserBtnClick(scope.record.id)">
               <template #icon>
                 <icon-delete />
               </template>
@@ -81,10 +81,17 @@
 import useSystemStore from '@/store/main/system/index'
 import type { TableRowSelection } from '@arco-design/web-vue'
 import { storeToRefs } from 'pinia'
-import { reactive, ref, toRaw } from 'vue'
+import { reactive, ref } from 'vue'
 import { formatUTC } from '@/utils/format'
 
 const pageSizeOptions: number[] = reactive([5, 10, 20, 30, 50])
+
+// 自定义事件: 新建用户
+const emit = defineEmits(['createClick'])
+
+function handleCreateUserClick() {
+  emit('createClick')
+}
 
 // 1. 发起action，请求userList数据
 const systemStore = useSystemStore()
@@ -128,6 +135,10 @@ function fetchUserListData(formData: any = {}) {
   }
   const queryInfo = { ...pageInfo, ...formData }
   systemStore.postUsersListAction(queryInfo)
+}
+
+function deleteUserBtnClick(id: number) {
+  systemStore.deleteUserByIDAction(id)
 }
 
 defineExpose({

@@ -1,17 +1,20 @@
 <template>
   <div class="user">
     <user-search @query-click="handleQueryClick" @reset-click="handleResetClick" />
-    <user-content ref="contentRef" />
+    <user-content ref="contentRef" @createClick="handleCreateUserClick" />
+    <user-modal ref="modalRef" />
   </div>
 </template>
 
 <script setup lang="ts">
 import userSearch from './userSearch.vue'
 import userContent from './userContent.vue'
+import userModal from './userModal.vue'
 
 import { ref } from 'vue'
 
 const contentRef = ref<InstanceType<typeof userContent>>()
+const modalRef = ref<InstanceType<typeof userModal>>()
 
 function handleQueryClick(formData: any) {
   // console.log(formData)
@@ -20,6 +23,11 @@ function handleQueryClick(formData: any) {
 
 function handleResetClick() {
   contentRef.value?.fetchUserListData()
+}
+
+function handleCreateUserClick() {
+  modalRef.value?.setModalVisible()
+  // console.log('createUser')
 }
 </script>
 
