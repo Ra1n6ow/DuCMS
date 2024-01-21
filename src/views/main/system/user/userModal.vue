@@ -2,7 +2,7 @@
   <div class="modal">
     <a-modal
       v-model:visible="dialogVisible"
-      title="新建用户"
+      :title="isCreateRef ? '新建用户' : '编辑用户'"
       @cancel="handleCancelBtnClick"
       @before-ok="handleCreateBtnClick"
     >
@@ -13,7 +13,7 @@
         <a-form-item field="realname" label="真实姓名">
           <a-input v-model="formData.realname" />
         </a-form-item>
-        <a-form-item field="password" label="密码">
+        <a-form-item v-if="isCreateRef" field="password" label="密码">
           <a-input-password v-model="formData.password" />
         </a-form-item>
         <a-form-item field="cellphone" label="手机号码">
@@ -44,9 +44,12 @@ import useMainStore from '@/store/main/main'
 import useSystemStore from '@/store/main/system'
 import { storeToRefs } from 'pinia'
 
+const isCreateRef = ref(true)
+const editData = ref()
+
 const systemStore = useSystemStore()
 // 1.定义内部的属性
-const dialogVisible = ref(true)
+const dialogVisible = ref(false)
 const formData = reactive<any>({
   name: '',
   realname: '',
@@ -57,8 +60,23 @@ const formData = reactive<any>({
 })
 
 // 2.定义设置dialogVisible方法
-function setModalVisible() {
+function setModalVisible(isCreate: boolean = true, itemData?: any) {
   dialogVisible.value = true
+  isCreateRef.value = isCreate
+  if (!isCreate && itemData) {
+    // 编辑数据
+    for (const key in formData) {
+      // 手机号码会被被别成 number，需要强转
+      formData[key] = String(itemData[key])
+    }
+    editData.value = itemData
+  } else {
+    // 新建数据
+    for (const key in formData) {
+      formData[key] = ''
+    }
+    editData.value = null
+  }
 }
 
 function handleCancelBtnClick() {
@@ -68,8 +86,13 @@ function handleCancelBtnClick() {
 // 3.点击了确定的逻辑
 function handleCreateBtnClick() {
   dialogVisible.value = false
-  // 创建新的用户
-  systemStore.createUserDataAction(formData)
+  if (!isCreateRef.value && editData.value) {
+    // 编辑用户的数据
+    systemStore.editUserDataAction(editData.value.id, formData)
+  } else {
+    // 创建新的用户
+    systemStore.createUserDataAction(formData)
+  }
 }
 
 // 3.获取roles/departments数据

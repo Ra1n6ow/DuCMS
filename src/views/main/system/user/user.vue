@@ -1,7 +1,11 @@
 <template>
   <div class="user">
     <user-search @query-click="handleQueryClick" @reset-click="handleResetClick" />
-    <user-content ref="contentRef" @createClick="handleCreateUserClick" />
+    <user-content
+      ref="contentRef"
+      @createClick="handleCreateUserClick"
+      @editClick="handleEditUserClick"
+    />
     <user-modal ref="modalRef" />
   </div>
 </template>
@@ -27,7 +31,10 @@ function handleResetClick() {
 
 function handleCreateUserClick() {
   modalRef.value?.setModalVisible()
-  // console.log('createUser')
+}
+function handleEditUserClick(itemData: any) {
+  // console.log(itemData)
+  modalRef.value?.setModalVisible(false, itemData)
 }
 </script>
 

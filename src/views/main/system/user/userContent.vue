@@ -45,7 +45,7 @@
         </a-table-column>
         <a-table-column title="操作" :width="200" align="center">
           <template #cell="scope">
-            <a-button type="text">
+            <a-button type="text" @click="editUserBtnClick(scope.record)">
               <template #icon>
                 <icon-edit />
               </template>
@@ -85,13 +85,6 @@ import { reactive, ref } from 'vue'
 import { formatUTC } from '@/utils/format'
 
 const pageSizeOptions: number[] = reactive([5, 10, 20, 30, 50])
-
-// 自定义事件: 新建用户
-const emit = defineEmits(['createClick'])
-
-function handleCreateUserClick() {
-  emit('createClick')
-}
 
 // 1. 发起action，请求userList数据
 const systemStore = useSystemStore()
@@ -139,6 +132,16 @@ function fetchUserListData(formData: any = {}) {
 
 function deleteUserBtnClick(id: number) {
   systemStore.deleteUserByIDAction(id)
+}
+
+// 自定义事件: 新建/编辑用户
+const emit = defineEmits(['createClick', 'editClick'])
+
+function handleCreateUserClick() {
+  emit('createClick')
+}
+function editUserBtnClick(itemData: any) {
+  emit('editClick', itemData)
 }
 
 defineExpose({
